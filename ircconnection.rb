@@ -27,8 +27,9 @@ class IrcConnection
     @socket.puts("PONG :#{ping_id}")
   end
 
-  def QUIT(message)
-    @socket.puts("QUIT :#{message}")
+  def QUIT(msg)
+    puts ("QUIT :#{msg}")
+    @socket.puts("QUIT :#{msg}")
   end
 
   def JOIN(channel)
@@ -37,6 +38,21 @@ class IrcConnection
       @socket.puts("JOIN #{channel}")
       @channels.push(channel)
     end
+  end
+
+  def PART(channel=nil, msg=nil)
+    if channel.nil?
+      channel = @channels[0]
+    end
+    if msg.nil?
+      puts("PART #{channel}")
+      @socket.puts("PART #{channel}")
+    else
+      command = "PART #{channel} :#{msg}"
+      puts(command)
+      @socket.puts(command)
+    end
+    @channels.delete_if {|chan| chan.downcase == channel.downcase}
   end
 
   def PRIVMSG(msg, recipient=nil)
