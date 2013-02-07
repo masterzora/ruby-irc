@@ -28,7 +28,7 @@ class IrcConnection
   end
 
   def QUIT(msg)
-    puts ("QUIT :#{msg}")
+    #puts ("QUIT :#{msg}")
     @socket.puts("QUIT :#{msg}")
   end
 
@@ -45,11 +45,11 @@ class IrcConnection
       channel = @channels[0]
     end
     if msg.nil?
-      puts("PART #{channel}")
+      #puts("PART #{channel}")
       @socket.puts("PART #{channel}")
     else
       command = "PART #{channel} :#{msg}"
-      puts(command)
+      #puts(command)
       @socket.puts(command)
     end
     @channels.delete_if {|chan| chan.downcase == channel.downcase}
@@ -59,7 +59,7 @@ class IrcConnection
     if recipient.nil?
       recipient = @channels[0]  # TODO: make this not stupid for multiple channels
     end
-    puts ("PRIVMSG #{recipient} :#{msg}")
+    #puts ("PRIVMSG #{recipient} :#{msg}")
     @socket.puts("PRIVMSG #{recipient} :#{msg}")
   end
 
